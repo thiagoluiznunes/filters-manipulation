@@ -22,8 +22,7 @@ from methods import filters
 def main():
     """Função principal da aplicação.
     """
-    filters.test()
-    # filters.thresholding(sys.argv[1], sys.argv[2])
+    filters.thresholding(sys.argv[1], sys.argv[2])
 
 if __name__ == "__main__":
     main()
