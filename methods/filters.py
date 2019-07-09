@@ -2,7 +2,6 @@ import sys
 import cv2
 import math
 
-
 def test():
     print('hellooo')
 
@@ -16,8 +15,8 @@ def thresholding(path, measure):
                 newImg[i, j] = 0
             else:
                 newImg[i, j] = 255
-                
+
     cv2.startWindowThread()
     cv2.imshow('Thresholding', newImg)
-    cv2.waitKey(0)
+    cv2.waitKey(5000)
     cv2.destroyAllWindows()
