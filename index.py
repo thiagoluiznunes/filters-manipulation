@@ -32,7 +32,8 @@ def main():
 		else:
 			filters.showRGB(sys.argv[1], 'blue')
 	elif option == "3":
-		filters.convertToYIQ(sys.argv[1])
+		# filters.convertToYIQ(sys.argv[1])
+		filters.rbgToYIQ(sys.argv[1])
 
 	else:
 		print('Closed!')

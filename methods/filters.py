@@ -41,54 +41,67 @@ def showRGB(path, band):
 
 
 def convertToYIQ(path):
-
-	def convert_y(r, g, b):
-		return (r * 0.299) + (g * 0.587) + (b * 0.114)
-	def convert_i(r, g, b):
-		return (r * 0.596) - (g * 0.274) - (b * 0.332)
-	def convert_q(r, g, b):
-		return (r * 0.211) - (g * 0.523) - (b * 0.312)
-
 	img = cv2.imread(path, 3)
+	height, width, channel = img.shape
 	blue, green, red = cv2.split(img)
 
-	y_matrix = np.zeros((blue.shape[0], blue.shape[1]))
-	i_matrix = np.zeros((blue.shape[0], blue.shape[1]))
-	q_matrix = np.zeros((blue.shape[0], blue.shape[1]))
+	# myread = np.full((height, width), 25)
+	y_matrix = np.full((height, width), 0)
+	i_matrix = np.full((height, width), 0)
+	q_matrix = np.full((height, width), 0)
 
-	for i in range(0, 2):
-		for j in range(0, 2):
-			y_matrix[i,j] = convert_y(blue[i,j], green[i,j], red[i,j])
-			i_matrix[i,j] = convert_i(blue[i,j], green[i,j], red[i,j])
-			q_matrix[i,j] = convert_q(blue[i,j], green[i,j], red[i,j])
+	for i in range(0, height):
+		for j in range(0, width):
+			r = red[i,j]
+			g = green[i,j]
+			b = blue[i,j]
 
-	# YIQ_image = cv2.merge([y_matrix, i_matrix, q_matrix])
-	showImage('YIQ Image', q_matrix)
-	# print('Y MATRIX', y_matrix)
-	# print('')
-	# print('I MATRIX', i_matrix)
-	# print('')
-	# print('Q MATRIX', q_matrix)
-	# return y_matrix, i_matrix, q_matrix
+			#RGB to YIQ
+			y_matrix[i,j] = (0.299 * r) + (0.587 * g) + (0.114 * b)
+			i_matrix[i,j] = (0.596 * r) - (0.274 * g) - (0.322 * b)
+			q_matrix[i,j] = (0.211 * r) - (0.523 * g) + (0.312 * b)
+
+	YIQ_image = cv2.merge([q_matrix, i_matrix, y_matrix])
+	print('RED PURE', red)
+	print('')
+	print('GREEN PURE', green)
+	print('')
+	print('BLUE PURE', blue)
+	print('')
+	print('')
+	print('')
+	print('')
+	# showImage('YIQ Image', q_matrix)
+	return y_matrix, i_matrix, q_matrix
 
 def convertToRGB(y_matrix, i_matrix, q_matrix):
+	height = y_matrix.shape[0]
+	width = y_matrix.shape[1]
 
-	r_matrix = y_matrix
-	g_matrix = y_matrix
-	b_matrix = y_matrix
+	r_matrix = np.full((height, width), 0)
+	print('Y', y_matrix)
+	print('')
+	print('I', i_matrix)
+	print('')
+	print('Q', q_matrix)
+	print('')
+	g_matrix = np.full((height, width), 0)
+	b_matrix = np.full((height, width), 0)
 
-	def convert_red(y, i, q) : return (1.000 * y) + (0.956 * i) + (0.621 * q)
-	def convert_green(y, i, q) : return (1.000 * y) - (0.272 * i) - (0.647 * q)
-	def convert_blue(y, i, q) : return (1.000 * y) - (1.106 * i) + (1.703 * q)
+	for x in range(0, height):
+		for j in range(0, width):
+			y = y_matrix[x,j]
+			i = i_matrix[x,j]
+			q = q_matrix[x,j]
 
-	for i in range(0, y_matrix.shape[0]):
-		for j in range(0, y_matrix.shape[1]):
-			r_matrix[i,j] = convert_red(y_matrix[i,j], i_matrix[i,j], q_matrix[i,j])
-			g_matrix[i,j] = convert_red(y_matrix[i,j], i_matrix[i,j], q_matrix[i,j])
-			b_matrix[i,j] = convert_red(y_matrix[i,j], i_matrix[i,j], q_matrix[i,j])
-	showImage('RED BAND', r_matrix)
+			#YIQ to RGB
+			r_matrix[x,j] = (1.000 * y) + (0.956 * i) + (0.621 * q)
+			g_matrix[x,j] = (1.000 * y) - (0.272 * i) - (0.647 * q)
+			b_matrix[x,j] = (1.000 * y) - (1.106 * i) + (1.703 * q)
+	# print('RED NEW', r_matrix)
+	# showImage('YIQ Image', r_matrix)
 
-def rgbTIQrgb(path):
+def rbgToYIQ(path):
 	y_matrix, i_matrix, q_matrix = convertToYIQ(path)
 	convertToRGB(y_matrix, i_matrix, q_matrix)
 
