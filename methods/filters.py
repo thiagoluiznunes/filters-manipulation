@@ -45,10 +45,9 @@ def convertToYIQ(path):
 	height, width, channel = img.shape
 	blue, green, red = cv2.split(img)
 
-	# myread = np.full((height, width), 25)
-	y_matrix = np.full((height, width), 0)
-	i_matrix = np.full((height, width), 0)
-	q_matrix = np.full((height, width), 0)
+	y_matrix = np.zeros((height, width), dtype=np.uint8)
+	i_matrix = np.zeros((height, width), dtype=np.uint8)
+	q_matrix = np.zeros((height, width), dtype=np.uint8)
 
 	for i in range(0, height):
 		for j in range(0, width):
@@ -62,31 +61,24 @@ def convertToYIQ(path):
 			q_matrix[i,j] = (0.211 * r) - (0.523 * g) + (0.312 * b)
 
 	YIQ_image = cv2.merge([q_matrix, i_matrix, y_matrix])
-	print('RED PURE', red)
-	print('')
-	print('GREEN PURE', green)
-	print('')
-	print('BLUE PURE', blue)
-	print('')
-	print('')
-	print('')
-	print('')
-	# showImage('YIQ Image', q_matrix)
+	# print('RED PURE', red)
+	# print('')
+	# showImage('YIQ Image', YIQ_image)
 	return y_matrix, i_matrix, q_matrix
 
 def convertToRGB(y_matrix, i_matrix, q_matrix):
 	height = y_matrix.shape[0]
 	width = y_matrix.shape[1]
 
-	r_matrix = np.full((height, width), 0)
-	print('Y', y_matrix)
-	print('')
-	print('I', i_matrix)
-	print('')
-	print('Q', q_matrix)
-	print('')
-	g_matrix = np.full((height, width), 0)
-	b_matrix = np.full((height, width), 0)
+	r_matrix = np.zeros((height, width), dtype=np.uint8)
+	g_matrix = np.zeros((height, width), dtype=np.uint8)
+	b_matrix = np.zeros((height, width), dtype=np.uint8)
+
+	for x in range(0, height):
+		for y in range(0, width):
+			r_matrix[x,y] = 0
+			g_matrix[x,y] = 0
+			b_matrix[x,y] = 0
 
 	for x in range(0, height):
 		for j in range(0, width):
@@ -95,11 +87,14 @@ def convertToRGB(y_matrix, i_matrix, q_matrix):
 			q = q_matrix[x,j]
 
 			#YIQ to RGB
-			r_matrix[x,j] = (1.000 * y) + (0.956 * i) + (0.621 * q)
-			g_matrix[x,j] = (1.000 * y) - (0.272 * i) - (0.647 * q)
-			b_matrix[x,j] = (1.000 * y) - (1.106 * i) + (1.703 * q)
-	# print('RED NEW', r_matrix)
-	# showImage('YIQ Image', r_matrix)
+			r_matrix[x,j] = abs((1.000 * y) + (0.956 * i) + (0.621 * q))
+			g_matrix[x,j] = abs((1.000 * y) - (0.272 * i) - (0.647 * q))
+			b_matrix[x,j] = abs((1.000 * y) - (1.106 * i) + (1.703 * q))
+	
+	g_matrix = clearMatrix(g_matrix)
+	r_matrix = clearMatrix(r_matrix)
+	rgb_img = cv2.merge([b_matrix, g_matrix, r_matrix])
+	showImage('RGB', rgb_img)
 
 def rbgToYIQ(path):
 	y_matrix, i_matrix, q_matrix = convertToYIQ(path)
