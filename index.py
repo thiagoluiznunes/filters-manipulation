@@ -10,7 +10,7 @@ def main():
 	"""
 	print('Filter Manipulation Tool')
 	print('')
-	print('Choose one operation bellow!')
+	print('Choose one operation bellow:')
 	print('')
 	print('1. Thresholding Filter')
 	print('2. RGB Filter')
@@ -20,7 +20,13 @@ def main():
 	option = input()
 
 	if option == "1":
-		filters.thresholding(sys.argv[1], sys.argv[2])
+		print('Enter a measurement between 0 and 255')
+		measure = input()
+		print('Choose image type:')
+		print('1. Monochromatic')
+		print('2. Colorful')
+		imgType = input()
+		filters.thresholding(sys.argv[1], measure, imgType)
 	elif option == "2":
 		print('1. Read')
 		print('2. Green')
