@@ -15,6 +15,7 @@ def main():
 	print('1. Thresholding Filter')
 	print('2. RGB Filter')
 	print('3. Convert RGB to YIQ')
+	print('4. Negative filter')
 	print('')
 	option = input()
 
@@ -32,9 +33,9 @@ def main():
 		else:
 			filters.showRGB(sys.argv[1], 'blue')
 	elif option == "3":
-		# filters.convertToYIQ(sys.argv[1])
 		filters.rbgToYIQ(sys.argv[1])
-
+	elif option == "4":
+		filters.negative(sys.argv[1])
 	else:
 		print('Closed!')
 

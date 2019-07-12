@@ -92,14 +92,31 @@ def rbgToYIQ(path):
     y_matrix, i_matrix, q_matrix = convertToYIQ(path)
     convertToRGB(y_matrix, i_matrix, q_matrix)
 
+def negative(path):
+	img = cv.imread(path, 3)
+	row, col, ch = img.shape
+	blue, green, red = cv.split(img)
+
+	r_matrix = np.zeros((row, col), dtype=np.uint8)
+	g_matrix = np.zeros((row, col), dtype=np.uint8)
+	b_matrix = np.zeros((row, col), dtype=np.uint8)
+	
+	for i in range(row):
+		for j in range(col):
+			r_matrix[i,j] = 255 - red[i,j]
+			g_matrix[i,j] = 255 - green[i,j]
+			b_matrix[i,j] = 255 - blue[i,j]
+
+	negativeImage = cv.merge([r_matrix, g_matrix, b_matrix])
+	showImage('Image Negative', negativeImage)
 
 def thresholding(path, measure):
     img = cv.imread(path, 0)
     newImg = img
-    for i in range(0, img.shape[0]):
-        for j in range(0, img.shape[1]):
-            if img[i, j] < 50:
-                newImg[i, j] = 0
+    for i in range(img.shape[0]):
+        for j in range(img.shape[1]):
+            if img[i,j] < 50:
+                newImg[i,j] = 0
             else:
-                newImg[i, j] = 255
+                newImg[i,j] = 255
     showImage('Thresholding', newImg)
