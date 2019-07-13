@@ -19,12 +19,13 @@ def main():
 	print('4. Negative Filter')
 	print('5. Incriese Brightness')
 	print('6. Multiply Brightness')
+	print('7. Thresholding Filter in Y')
 	print('')
 	option = input()
 	filename = askopenfilename()
 
 	if option == "1":
-		print('Enter a measurement between 0 and 255')
+		print('Enter a measurement between 0 and 255:')
 		measure = input()
 		print('Choose image type:')
 		print('1. Monochromatic')
@@ -45,13 +46,17 @@ def main():
 	elif option == "3":
 		filters.rbgToYIQ(filename)
 	elif option == "4":
-		filters.negative(filename)
+		print('1. RGB')
+		print('2. YIQ')
+		print('3. RGB YIQ RGB')
+		measure = input()
+		filters.negative(filename, measure)
 	elif option == "5":
-		print('Enter a measurement between 0 and 255')
+		print('Enter a incriese measurement:')
 		measure = input()
 		filters.brightnessHandler(filename, measure, 'add')
 	elif option == "6":
-		print('Enter a measurement between 0 and 255')
+		print('Enter a multiply measurement:')
 		measure = input()
 		filters.brightnessHandler(filename, measure, 'multiply')
 	else:

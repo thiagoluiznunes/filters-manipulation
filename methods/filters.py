@@ -93,21 +93,37 @@ def rbgToYIQ(path):
 	convertToRGB(y_matrix, i_matrix, q_matrix)
 
 
-def negative(path):
+def negative(path, option):
 	img = cv.imread(path, 3)
 	row, col, ch = img.shape
-	blue, green, red = cv.split(img)
 
-	r_matrix, g_matrix, b_matrix = createRGBMatrixes(row, col)
+	if option == '1':
+		blue, green, red = cv.split(img)
+		r_matrix, g_matrix, b_matrix = createRGBMatrixes(row, col)
+		for i in range(row):
+			for j in range(col):
+				r_matrix[i, j] = 255 - red[i, j]
+				g_matrix[i, j] = 255 - green[i, j]
+				b_matrix[i, j] = 255 - blue[i, j]
+		negativeImage = cv.merge([r_matrix, g_matrix, b_matrix])
+		showImage('Image Negative', negativeImage)
 
-	for i in range(row):
-		for j in range(col):
-			r_matrix[i, j] = 255 - red[i, j]
-			g_matrix[i, j] = 255 - green[i, j]
-			b_matrix[i, j] = 255 - blue[i, j]
+	elif option == '2':
+		y_matrix, i_matrix, q_matrix = convertToYIQ(path)
+		for i in range(row):
+		    for j in range(col):
+		        y_matrix[i, j] = 255 - y_matrix[i, j]
+		negativeImage = cv.merge([y_matrix, i_matrix, q_matrix])
+		cv.imshow('Image Negative', negativeImage)
+		cv.waitKey(0)
+		cv.destroyAllWindows()
 
-	negativeImage = cv.merge([r_matrix, g_matrix, b_matrix])
-	showImage('Image Negative', negativeImage)
+	else:
+		y_matrix, i_matrix, q_matrix = convertToYIQ(path)
+		for i in range(row):
+			for j in range(col):
+				y_matrix[i, j] = 255 - y_matrix[i, j]
+		convertToRGB(y_matrix, i_matrix, q_matrix)
 
 
 def brightnessHandler(path, measure, option):
@@ -137,6 +153,7 @@ def brightnessHandler(path, measure, option):
 				else:
 					b_matrix[i, j] = newBlue
 	else:
+		y_matrix, i_matrix, q_matrix = convertToYIQ(path)
 		for i in range(row):
 			for j in range(col):
 				newRed = abs(red[i, j] * measure)
@@ -154,9 +171,17 @@ def brightnessHandler(path, measure, option):
 					b_matrix[i, j] = 255
 				else:
 					b_matrix[i, j] = newBlue
-	
+		for i in range(row):
+			for j in range(col):
+				newY = y_matrix[i, j] * measure
+				if newY > 255:
+					y_matrix[i, j] = 255
+				else:
+					y_matrix[i, j] = newY
+
 	brightnessImage = cv.merge([r_matrix, g_matrix, b_matrix])
 	showImage('Brightness Image', brightnessImage)
+	convertToRGB(y_matrix, i_matrix, q_matrix)
 
 def thresholding(path, measure, option):
 	if option == "1":
@@ -194,3 +219,10 @@ def thresholding(path, measure, option):
 
 		thImage = cv.merge([r_matrix, g_matrix, b_matrix])
 		showImage('Thresholding', thImage)
+
+
+# def thresholdingY(path, measure, option):
+	# y_matrix, i_matrix, q_matrix = convertToYIQ(path)
+	# if option == "1":
+
+	# else:
