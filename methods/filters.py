@@ -175,24 +175,22 @@ def thresholding(path, measure, option):
 		img = cv.imread(path, 3)
 		row, col, ch = img.shape
 
-		r = np.zeros((row, col), dtype=np.uint8)
-		g = np.zeros((row, col), dtype=np.uint8)
-		b = np.zeros((row, col), dtype=np.uint8)
+		r_matrix, g_matrix, b_matrix = createRGBMatrixes(row, col)
 
 		for i in range(row):
 			for j in range(col):
 				if img[i, j, 0] < int(measure):
-					r[i, j] = 0
+					r_matrix[i, j] = 0
 				if img[i, j, 1] < int(measure):
-					g[i, j] = 0
+					g_matrix[i, j] = 0
 				if img[i, j, 2] < int(measure):
-					b[i, j] = 0
+					b_matrix[i, j] = 0
 				if img[i, j, 0] >= int(measure):
-					r[i, j] = 255
+					r_matrix[i, j] = 255
 				if img[i, j, 1] >= int(measure):
-					g[i, j] = 255
+					g_matrix[i, j] = 255
 				if img[i, j, 2] >= int(measure):
-					b[i, j] = 255
+					b_matrix[i, j] = 255
 
-		thImage = cv.merge([r, g, b])
+		thImage = cv.merge([r_matrix, g_matrix, b_matrix])
 		showImage('Thresholding', thImage)
