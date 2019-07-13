@@ -59,6 +59,17 @@ def main():
 		print('Enter a multiply measurement:')
 		measure = input()
 		filters.brightnessHandler(filename, measure, 'multiply')
+	elif option == "7":
+		print('1. Measure')
+		print('2. Average')
+		choose = input()
+		if choose == '1':
+			print('Enter a measurement between 0 and 255:')
+			measure = input()
+			filters.thresholdingY(filename, choose, measure)
+		else:
+			filters.thresholdingY(filename, choose, measure)
+
 	else:
 		print('Closed!')
 

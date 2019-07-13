@@ -221,8 +221,34 @@ def thresholding(path, measure, option):
 		showImage('Thresholding', thImage)
 
 
-# def thresholdingY(path, measure, option):
-	# y_matrix, i_matrix, q_matrix = convertToYIQ(path)
-	# if option == "1":
-
-	# else:
+def thresholdingY(path, choose, measure):
+	img = cv.imread(path, 3)
+	row, col, ch = img.shape
+	y_matrix, i_matrix, q_matrix = convertToYIQ(path)
+	if choose == "1":
+		for i in range(row):
+			for j in range(col):
+				if y_matrix[i,j] < int(measure):
+					y_matrix[i,j] = 0
+				else:
+					y_matrix[i,j] = 255
+		threY = cv.merge([y_matrix, i_matrix, q_matrix])
+		cv.imshow('Thresholding Y measure', threY)
+		cv.waitKey(0)
+		cv.destroyAllWindows()
+	else:
+		count = 0
+		for i in range(row):
+			for j in range(col):
+				count += y_matrix[i,j]
+		count /= row * col
+		for i in range(row):
+			for j in range(col):
+				if y_matrix[i,j] < count:
+					y_matrix[i,j] = 0
+				else:
+					y_matrix[i,j] = 255
+		threY = cv.merge([y_matrix, i_matrix, q_matrix])
+		cv.imshow('Thresholding Y average', threY)
+		cv.waitKey(0)
+		cv.destroyAllWindows()
