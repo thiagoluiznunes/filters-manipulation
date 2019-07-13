@@ -17,6 +17,11 @@ def showImage(method, img):
 	im = Image.fromarray(img)
 	im.show()
 
+def createRGBMatrixes(row, col):
+	r_matrix = np.zeros((row, col), dtype=np.uint8)
+	g_matrix = np.zeros((row, col), dtype=np.uint8)
+	b_matrix = np.zeros((row, col), dtype=np.uint8)
+	return r_matrix, g_matrix, b_matrix
 
 def showRGB(path, band):
 	img = cv.imread(path, 3)
@@ -65,9 +70,7 @@ def convertToRGB(y_matrix, i_matrix, q_matrix):
 	row = y_matrix.shape[0]
 	col = y_matrix.shape[1]
 
-	r_matrix = np.zeros((row, col), dtype=np.uint8)
-	g_matrix = np.zeros((row, col), dtype=np.uint8)
-	b_matrix = np.zeros((row, col), dtype=np.uint8)
+	r_matrix, g_matrix, b_matrix = createRGBMatrixes(row, col)
 
 	for x in range(0, row):
 		for j in range(0, col):
@@ -93,9 +96,7 @@ def negative(path):
 	row, col, ch = img.shape
 	blue, green, red = cv.split(img)
 
-	r_matrix = np.zeros((row, col), dtype=np.uint8)
-	g_matrix = np.zeros((row, col), dtype=np.uint8)
-	b_matrix = np.zeros((row, col), dtype=np.uint8)
+	r_matrix, g_matrix, b_matrix = createRGBMatrixes(row, col)
 
 	for i in range(row):
 		for j in range(col):
@@ -106,6 +107,12 @@ def negative(path):
 	negativeImage = cv.merge([r_matrix, g_matrix, b_matrix])
 	showImage('Image Negative', negativeImage)
 
+def addBrightness(path, measure):
+	img = cv.imread(path, 3)
+	row, col, ch = img.shape
+	blue, green, red = cv.split(img)
+
+	r_matrix, g_matrix, b_matrix = createRGBMatrixes(row, col)
 
 def thresholding(path, measure, option):
 	if option == "1":
