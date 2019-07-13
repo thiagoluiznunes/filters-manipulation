@@ -17,11 +17,13 @@ def showImage(method, img):
 	im = Image.fromarray(img)
 	im.show()
 
+
 def createRGBMatrixes(row, col):
 	r_matrix = np.zeros((row, col), dtype=np.uint8)
 	g_matrix = np.zeros((row, col), dtype=np.uint8)
 	b_matrix = np.zeros((row, col), dtype=np.uint8)
 	return r_matrix, g_matrix, b_matrix
+
 
 def showRGB(path, band):
 	img = cv.imread(path, 3)
@@ -107,12 +109,54 @@ def negative(path):
 	negativeImage = cv.merge([r_matrix, g_matrix, b_matrix])
 	showImage('Image Negative', negativeImage)
 
-def addBrightness(path, measure):
+
+def brightnessHandler(path, measure, option):
 	img = cv.imread(path, 3)
 	row, col, ch = img.shape
 	blue, green, red = cv.split(img)
+	measure = int(measure)
 
 	r_matrix, g_matrix, b_matrix = createRGBMatrixes(row, col)
+
+	if option == 'add':
+		for i in range(row):
+			for j in range(col):
+				newRed = red[i, j] + measure
+				newGreen = green[i, j] + measure
+				newBlue = blue[i, j] + measure
+				if newRed > 255:
+					r_matrix[i, j] = 255
+				else:
+					r_matrix[i, j] = newRed
+				if newGreen > 255:
+					g_matrix[i, j] = 255
+				else:
+					g_matrix[i, j] = newGreen
+				if newBlue > 255:
+					b_matrix[i, j] = 255
+				else:
+					b_matrix[i, j] = newBlue
+	else:
+		for i in range(row):
+			for j in range(col):
+				newRed = abs(red[i, j] * measure)
+				newGreen = abs(green[i, j] * measure)
+				newBlue = abs(blue[i, j] * measure)
+				if newRed > 255:
+					r_matrix[i, j] = 255
+				else:
+					r_matrix[i, j] = newRed
+				if newGreen > 255:
+					g_matrix[i, j] = 255
+				else:
+					g_matrix[i, j] = newGreen
+				if newBlue > 255:
+					b_matrix[i, j] = 255
+				else:
+					b_matrix[i, j] = newBlue
+	
+	brightnessImage = cv.merge([r_matrix, g_matrix, b_matrix])
+	showImage('Brightness Image', brightnessImage)
 
 def thresholding(path, measure, option):
 	if option == "1":
@@ -122,10 +166,10 @@ def thresholding(path, measure, option):
 
 		for i in range(row):
 			for j in range(col):
-				if img[i,j] < int(measure):
-					thImage[i,j] = 0
+				if img[i, j] < int(measure):
+					thImage[i, j] = 0
 				else:
-					thImage[i,j] = 255
+					thImage[i, j] = 255
 		showImage('Thresholding', thImage)
 	else:
 		img = cv.imread(path, 3)
