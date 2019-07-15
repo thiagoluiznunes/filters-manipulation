@@ -1,7 +1,4 @@
 import sys
-import cv2
-import math
-import numpy as np
 from tkinter.filedialog import askopenfilename
 from methods import filters
 
@@ -15,7 +12,7 @@ def main():
 	print('')
 	print('1. Thresholding Filter')
 	print('2. RGB Filter')
-	print('3. Convert RGB to YIQ')
+	print('3. Convert RGB to YIQ to RGB')
 	print('4. Negative Filter')
 	print('5. Incriese Brightness')
 	print('6. Multiply Brightness')
@@ -33,18 +30,18 @@ def main():
 		imgType = input()
 		filters.thresholding(filename, measure, imgType)
 	elif option == "2":
-		print('1. Read')
+		print('1. Red')
 		print('2. Green')
 		print('3. Blue')
 		color = input()
 		if color == "1":
-			filters.showRGB(filename, 'read')
+			filters.showRGB(filename, 'red')
 		elif color == "2":
 			filters.showRGB(filename, 'green')
-		else:
+		elif color == "3":
 			filters.showRGB(filename, 'blue')
 	elif option == "3":
-		filters.rbgToYIQ(filename)
+		filters.rgbYIQrgb(filename)
 	elif option == "4":
 		print('1. RGB')
 		print('2. YIQ')
@@ -68,7 +65,7 @@ def main():
 			measure = input()
 			filters.thresholdingY(filename, choose, measure)
 		else:
-			filters.thresholdingY(filename, choose, measure)
+			filters.thresholdingY(filename, choose, 'measure')
 
 	else:
 		print('Closed!')
