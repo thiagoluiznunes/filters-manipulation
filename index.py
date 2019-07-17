@@ -23,7 +23,7 @@ def main():
 	print('9. Convolution Median Filter')
 	print('')
 	option = input()
-	# filename = askopenfilename()
+	filename = askopenfilename()
 
 	if option == "1":
 		print('Enter a measurement between 0 and 255:')
@@ -71,9 +71,9 @@ def main():
 		else:
 			ft.thresholdingY(filename, choose, 'measure')
 	elif option == "8":
-		# mask = askopenfilename()
-		# conv.averageFilter(filename, mask)
-		conv.averageFilter(sys.argv[1], sys.argv[2])
+		mask = askopenfilename()
+		conv.averageFilter(filename, mask)
+		# conv.averageFilter(sys.argv[1], sys.argv[2])
 	elif option == "9":
 		# mask = askopenfilename()
 		conv.medianFilter(filename, 'mask')
