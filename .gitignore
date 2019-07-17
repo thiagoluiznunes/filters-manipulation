@@ -2,7 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
-assets
+assets/images/*.jpg
+assets/images/*.png
+assets/images/*.jpeg
+assets/files/*.txt
 # C extensions
 *.so
 
