@@ -43,3 +43,6 @@ def createExtendedMatrixes(img, inc):
 			g_extended[i + inc, j + inc] = img[i, j, 1]
 			r_extended[i + inc, j + inc] = img[i, j, 2]
 	return r_extended, g_extended, b_extended
+
+def rebateMask(mask):
+	return np.rot90(np.rot90(mask))

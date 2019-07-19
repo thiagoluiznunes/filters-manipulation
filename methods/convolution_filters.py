@@ -4,10 +4,10 @@ import numpy as np
 from . import helper as hp
 
 
-def averageFilter(path, m_path):
+def averageFilter(path, mask_path):
 	img = cv.imread(path, 3)
 	row, col, ch = img.shape
-	mask = np.loadtxt(m_path)
+	mask = hp.rebateMask(np.loadtxt(mask_path))
 	row_mask, col_mask = mask.shape
 
 	inc = row_mask // 2
