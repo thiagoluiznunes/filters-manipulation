@@ -21,9 +21,10 @@ def main():
 	print('7. Thresholding Filter in Y')
 	print('8. Convolution Average Filter')
 	print('9. Convolution Median Filter')
+	print('10. Convolution Sobel Filter')
 	print('')
 	option = input()
-	# filename = askopenfilename()
+	filename = askopenfilename()
 
 	if option == "1":
 		print('Enter a measurement between 0 and 255:')
@@ -39,13 +40,13 @@ def main():
 		print('3. Blue')
 		color = input()
 		if color == "1":
-			ft.showRGB(filename, 'red')
+			ft.show_rgb(filename, 'red')
 		elif color == "2":
-			ft.showRGB(filename, 'green')
+			ft.show_rgb(filename, 'green')
 		elif color == "3":
-			ft.showRGB(filename, 'blue')
+			ft.show_rgb(filename, 'blue')
 	elif option == "3":
-		ft.rgbYIQrgb(filename)
+		ft.rgb_yiq_rgb(filename)
 	elif option == "4":
 		print('1. RGB')
 		print('2. YIQ')
@@ -55,11 +56,11 @@ def main():
 	elif option == "5":
 		print('Enter a incriese measurement:')
 		measure = input()
-		ft.brightnessHandler(filename, measure, 'add')
+		ft.brightness_handler(filename, measure, 'add')
 	elif option == "6":
 		print('Enter a multiply measurement:')
 		measure = input()
-		ft.brightnessHandler(filename, measure, 'multiply')
+		ft.brightness_handler(filename, measure, 'multiply')
 	elif option == "7":
 		print('1. Measure')
 		print('2. Average')
@@ -67,17 +68,20 @@ def main():
 		if choose == '1':
 			print('Enter a measurement between 0 and 255:')
 			measure = input()
-			ft.thresholdingY(filename, choose, measure)
+			ft.thresholding_y(filename, choose, measure)
 		else:
-			ft.thresholdingY(filename, choose, 'measure')
+			ft.thresholding_y(filename, choose, 'measure')
 	elif option == "8":
 		mask = askopenfilename()
-		conv.kernelFilter(filename, mask)
+		conv.kernel_filter(filename, mask)
 	elif option == "9":
 		mask = askopenfilename()
-		conv.kernelFilter(filename, mask)
-		# conv.medianFilter('assets/images/lena256color.jpg', 'assets/masks/mask3x3.txt')
-		# conv.medianFilter('assets/images/tigre.jpg', 'assets/masks/mask3x3.txt')
+		conv.median_filter(filename, mask)
+	elif option == "10":
+		mask = askopenfilename()
+		conv.sobel_filter(filename, mask)
+		# conv.sobel_filter('assets/images/lena256color.jpg', 'assets/masks/mask3x3.txt')
+		# conv.sobel_filter('assets/images/tigre.jpg', 'assets/masks/mask3x3.txt')
 	else:
 		print('Closed!')
 

@@ -4,15 +4,15 @@ import numpy as np
 from . import helper as hp
 
 
-def kernelFilter(path, mask_path):
+def kernel_filter(path, mask_path):
     img = cv.imread(path, 3)
     row, col, ch = img.shape
-    mask = hp.rebateMask(np.loadtxt(mask_path))
+    mask = hp.rebate_mask(np.loadtxt(mask_path))
     row_mask, col_mask = mask.shape
 
     inc = row_mask // 2
-    r_ext, g_ext, b_ext = hp.createExtendedMatrixes(img, inc)
-    r_matrix, g_matrix, b_matrix = hp.createRGBMatrixes(row, col)
+    r_ext, g_ext, b_ext = hp.create_extended_matrixes(img, inc)
+    r_matrix, g_matrix, b_matrix = hp.create_rgb_matrixes(row, col)
 
     for i in range(row):
         for j in range(col):
@@ -27,8 +27,8 @@ def kernelFilter(path, mask_path):
             r_matrix[i, j] = red_pixel
             g_matrix[i, j] = green_pixel
             b_matrix[i, j] = blue_pixel
-    kernelImage = cv.merge([r_matrix, g_matrix, b_matrix])
-    hp.showImage('Kernel Filter', kernelImage)
+    kernel_image = cv.merge([r_matrix, g_matrix, b_matrix])
+    hp.show_image('Kernel Filter', kernel_image)
 
     np.savetxt("./assets/files/red_extended_matrix.txt", r_ext, fmt="%s")
     np.savetxt("./assets/files/green_extended_matrix.txt", g_ext, fmt="%s")
@@ -38,15 +38,15 @@ def kernelFilter(path, mask_path):
     np.savetxt("./assets/files/blue_final_matrix.txt", b_matrix, fmt="%s")
 
 
-def medianFilter(path, mask):
+def median_filter(path, mask):
     img = cv.imread(path, 3)
     row, col, ch = img.shape
-    mask = hp.rebateMask(np.loadtxt(mask))
+    mask = hp.rebate_mask(np.loadtxt(mask))
     row_mask, col_mask = mask.shape
 
     inc = row_mask // 2
-    r_ext, g_ext, b_ext = hp.createExtendedMatrixes(img, inc)
-    r_matrix, g_matrix, b_matrix = hp.createRGBMatrixes(row, col)
+    r_ext, g_ext, b_ext = hp.create_extended_matrixes(img, inc)
+    r_matrix, g_matrix, b_matrix = hp.create_rgb_matrixes(row, col)
 
     for i in range(row):
         for j in range(col):
@@ -61,5 +61,9 @@ def medianFilter(path, mask):
             # print(red_aux[row_mask // 2])
             # print(np.sort(green_aux))
             # print(np.sort(blue_aux))
-    medianImage = cv.merge([r_matrix, g_matrix, b_matrix])
-    hp.showImage('Median Filter', medianImage)
+    median_image = cv.merge([r_matrix, g_matrix, b_matrix])
+    hp.show_image('Median Filter', median_image)
+
+
+def sobel_filter(path, mask):
+    print('Sobel fiter')

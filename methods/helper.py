@@ -3,7 +3,7 @@ import numpy as np
 import cv2 as cv
 
 
-def clearMatrix(matrix):
+def clear_matrix(matrix):
 	newMatrix = matrix
 	for i in range(len(matrix)):
 		for x in range(len(matrix[0])):
@@ -11,26 +11,26 @@ def clearMatrix(matrix):
 	return newMatrix
 
 
-def showImage(method, img):
+def show_image(method, img):
 	im = Image.fromarray(img)
 	im.show()
 
 
-def createRGBMatrixes(row, col):
+def create_rgb_matrixes(row, col):
 	r_matrix = np.zeros((row, col), dtype=np.uint8)
 	g_matrix = np.zeros((row, col), dtype=np.uint8)
 	b_matrix = np.zeros((row, col), dtype=np.uint8)
 	return r_matrix, g_matrix, b_matrix
 
 
-def createYIQMatrixes(row, col):
+def create_yiq_matrixes(row, col):
 	y_matrix = np.zeros((row, col))
 	i_matrix = np.zeros((row, col))
 	q_matrix = np.zeros((row, col))
 	return y_matrix, i_matrix, q_matrix
 
 
-def createExtendedMatrixes(img, inc):
+def create_extended_matrixes(img, inc):
 	row, col, ch = img.shape
 
 	r_extended = np.zeros((row + inc * 2, col + inc * 2), dtype=np.uint8)
@@ -44,5 +44,5 @@ def createExtendedMatrixes(img, inc):
 			r_extended[i + inc, j + inc] = img[i, j, 2]
 	return r_extended, g_extended, b_extended
 
-def rebateMask(mask):
+def rebate_mask(mask):
 	return np.rot90(np.rot90(mask))

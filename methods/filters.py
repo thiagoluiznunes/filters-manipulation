@@ -3,35 +3,35 @@ import math
 import numpy as np
 from . import helper as hp
 
-def showRGB(path, band):
+def show_rgb(path, band):
 	img = cv.imread(path, 3)
 	blue, green, red = cv.split(img)
 
 	if band == 'blue':
 		print('BLue')
-		green = hp.clearMatrix(green)
-		red = hp.clearMatrix(red)
+		green = hp.clear_matrix(green)
+		red = hp.clear_matrix(red)
 		imgBlue = cv.merge([red, green, blue])
 		hp.showImage('Blue', imgBlue)
 	elif band == 'green':
-		blue = hp.clearMatrix(blue)
-		red = hp.clearMatrix(red)
+		blue = hp.clear_matrix(blue)
+		red = hp.clear_matrix(red)
 		imgGreen = cv.merge([red, green, blue])
 		hp.showImage('Green', imgGreen)
 	elif band == 'red':
 		print('RED')
-		blue = hp.clearMatrix(blue)
-		green = hp.clearMatrix(green)
+		blue = hp.clear_matrix(blue)
+		green = hp.clear_matrix(green)
 		imgRed = cv.merge([red, green, blue])
 		hp.showImage('Red', imgRed)
 
 
-def convertToYIQ(path):
+def convert_to_yiq(path):
 	img = cv.imread(path, 3)
 	row, col, ch = img.shape
 	blue, green, red = cv.split(img)
 
-	y_matrix, i_matrix, q_matrix = hp.createYIQMatrixes(row, col)
+	y_matrix, i_matrix, q_matrix = hp.create_yiq_matrixes(row, col)
 
 	for i in range(row):
 		for j in range(col):
@@ -46,11 +46,11 @@ def convertToYIQ(path):
 	return y_matrix, i_matrix, q_matrix
 
 
-def convertToRGB(y_matrix, i_matrix, q_matrix):
+def convert_to_rgb(y_matrix, i_matrix, q_matrix):
 	row = y_matrix.shape[0]
 	col = y_matrix.shape[1]
 
-	r_matrix, g_matrix, b_matrix = hp.createRGBMatrixes(row, col)
+	r_matrix, g_matrix, b_matrix = hp.create_rgb_matrixes(row, col)
 
 	for x in range(0, row):
 		for j in range(0, col):
@@ -66,9 +66,9 @@ def convertToRGB(y_matrix, i_matrix, q_matrix):
 	hp.showImage('RGB to YIQ to RGB', rgb_img)
 
 
-def rgbYIQrgb(path):
-	y_matrix, i_matrix, q_matrix = convertToYIQ(path)
-	convertToRGB(y_matrix, i_matrix, q_matrix)
+def rgb_yiq_rgb(path):
+	y_matrix, i_matrix, q_matrix = convert_to_yiq(path)
+	convert_to_rgb(y_matrix, i_matrix, q_matrix)
 
 
 def negative(path, option):
@@ -77,7 +77,7 @@ def negative(path, option):
 
 	if option == '1':
 		blue, green, red = cv.split(img)
-		r_matrix, g_matrix, b_matrix = hp.createRGBMatrixes(row, col)
+		r_matrix, g_matrix, b_matrix = hp.create_rgb_matrixes(row, col)
 		for i in range(row):
 			for j in range(col):
 				r_matrix[i, j] = 255 - red[i, j]
@@ -87,7 +87,7 @@ def negative(path, option):
 		hp.showImage('Image Negative', negativeImage)
 
 	elif option == '2':
-		y_matrix, i_matrix, q_matrix = convertToYIQ(path)
+		y_matrix, i_matrix, q_matrix = convert_to_yiq(path)
 		for i in range(row):
 			for j in range(col):
 				y_matrix[i, j] = 255 - y_matrix[i, j]
@@ -97,20 +97,20 @@ def negative(path, option):
 		cv.destroyAllWindows()
 
 	else:
-		y_matrix, i_matrix, q_matrix = convertToYIQ(path)
+		y_matrix, i_matrix, q_matrix = convert_to_yiq(path)
 		for i in range(row):
 			for j in range(col):
 				y_matrix[i, j] = 255 - y_matrix[i, j]
-		convertToRGB(y_matrix, i_matrix, q_matrix)
+		convert_to_rgb(y_matrix, i_matrix, q_matrix)
 
 
-def brightnessHandler(path, measure, option):
+def brightness_handler(path, measure, option):
 	img = cv.imread(path, 3)
 	row, col, ch = img.shape
 	blue, green, red = cv.split(img)
 	measure = int(measure)
 
-	r_matrix, g_matrix, b_matrix = hp.createRGBMatrixes(row, col)
+	r_matrix, g_matrix, b_matrix = hp.create_rgb_matrixes(row, col)
 
 	if option == 'add':
 		for i in range(row):
@@ -131,7 +131,7 @@ def brightnessHandler(path, measure, option):
 				else:
 					b_matrix[i, j] = newBlue
 	else:
-		y_matrix, i_matrix, q_matrix = convertToYIQ(path)
+		y_matrix, i_matrix, q_matrix = convert_to_yiq(path)
 		for i in range(row):
 			for j in range(col):
 				newRed = abs(red[i, j] * measure)
@@ -165,20 +165,20 @@ def thresholding(path, measure, option):
 	if option == "1":
 		img = cv.imread(path, 0)
 		row, col = img.shape
-		thImage = np.zeros((row, col))
+		th_image = np.zeros((row, col))
 
 		for i in range(row):
 			for j in range(col):
 				if img[i, j] < int(measure):
-					thImage[i, j] = 0
+					th_image[i, j] = 0
 				else:
-					thImage[i, j] = 255
-		hp.showImage('Thresholding', thImage)
+					th_image[i, j] = 255
+		hp.showImage('Thresholding', th_image)
 	else:
 		img = cv.imread(path, 3)
 		row, col, ch = img.shape
 
-		r_matrix, g_matrix, b_matrix = hp.createRGBMatrixes(row, col)
+		r_matrix, g_matrix, b_matrix = hp.create_rgb_matrixes(row, col)
 
 		for i in range(row):
 			for j in range(col):
@@ -195,14 +195,14 @@ def thresholding(path, measure, option):
 				if img[i, j, 2] >= int(measure):
 					b_matrix[i, j] = 255
 
-		thImage = cv.merge([r_matrix, g_matrix, b_matrix])
-		hp.showImage('Thresholding', thImage)
+		th_image = cv.merge([r_matrix, g_matrix, b_matrix])
+		hp.showImage('Thresholding', th_image)
 
 
-def thresholdingY(path, choose, measure):
+def thresholding_y(path, choose, measure):
 	img = cv.imread(path, 3)
 	row, col, ch = img.shape
-	y_matrix, i_matrix, q_matrix = convertToYIQ(path)
+	y_matrix, i_matrix, q_matrix = convert_to_yiq(path)
 	if choose == "1":
 		for i in range(row):
 			for j in range(col):
