@@ -24,7 +24,7 @@ def main():
 	print('10.Convolution Sobel Filter')
 	print('')
 	option = input()
-	# filename = askopenfilename()
+	filename = askopenfilename()
 
 	if option == "1":
 		print('Enter a measurement between 0 and 255:')
