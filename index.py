@@ -21,10 +21,10 @@ def main():
 	print('7. Thresholding Filter in Y')
 	print('8. Convolution Average Filter')
 	print('9. Convolution Median Filter')
-	print('10. Convolution Sobel Filter')
+	print('10.Convolution Sobel Filter')
 	print('')
 	option = input()
-	filename = askopenfilename()
+	# filename = askopenfilename()
 
 	if option == "1":
 		print('Enter a measurement between 0 and 255:')
@@ -77,10 +77,11 @@ def main():
 	elif option == "9":
 		mask = askopenfilename()
 		conv.median_filter(filename, mask)
+		# conv.median_filter('assets/images/2817540617.jpg', 'assets/masks/mask5x5.txt')
+		# conv.median_filter('assets/images/lena.png', 'assets/masks/mask5x5.txt')
 	elif option == "10":
 		mask = askopenfilename()
 		conv.sobel_filter(filename, mask)
-		# conv.sobel_filter('assets/images/lena256color.jpg', 'assets/masks/mask3x3.txt')
 		# conv.sobel_filter('assets/images/tigre.jpg', 'assets/masks/mask3x3.txt')
 	else:
 		print('Closed!')
