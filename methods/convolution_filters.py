@@ -58,10 +58,45 @@ def median_filter(path, mask):
 			r_matrix[i, j] = red_aux[index]
 			g_matrix[i, j] = green_aux[index]
 			b_matrix[i, j] = blue_aux[index]
-			
+
 	median_image = cv.merge([r_matrix, g_matrix, b_matrix])
 	hp.show_image('Median Filter', median_image)
 
 
 def sobel_filter(path, mask):
-	print('Sobel fiter')
+	img = cv.imread(path, 3)
+	row, col, ch = img.shape
+	mask = np.loadtxt(mask)
+	row_mask, col_mask = mask.shape
+	sobel_ver = mask
+	sobel_hor = np.rot90(mask)
+
+	inc = row_mask // 2
+	r_ext, g_ext, b_ext = hp.create_extended_matrixes(img, inc)
+	r_matrix, g_matrix, b_matrix = hp.create_rgb_matrixes(row, col)
+
+	for i in range(row):
+		for j in range(col):
+			red_pixel_hor = 0
+			red_pixel_ver = 0
+			green_pixel_hor = 0
+			green_pixel_ver = 0
+			blue_pixel_hor = 0
+			blue_pixel_ver = 0
+			for x in range(row_mask):
+				for y in range(col_mask):
+					red_pixel_hor += r_ext[i+x, j+y] * sobel_hor[x, y]
+					red_pixel_ver += r_ext[i+x, j+y] * sobel_ver[x, y]
+
+					green_pixel_hor += g_ext[i+x, j+y] * sobel_hor[x, y]
+					green_pixel_ver += g_ext[i+x, j+y] * sobel_ver[x, y]
+
+					blue_pixel_hor += b_ext[i+x, j+y] * sobel_hor[x, y]
+					blue_pixel_ver += b_ext[i+x, j+y] * sobel_ver[x, y]
+			
+			r_matrix[i, j] = abs(red_pixel_hor) + abs(red_pixel_ver)
+			g_matrix[i, j] = abs(green_pixel_hor) + abs(green_pixel_ver)
+			b_matrix[i, j] = abs(blue_pixel_hor) + abs(blue_pixel_ver)
+			
+	sobel_image = cv.merge([r_matrix, g_matrix, b_matrix])
+	hp.show_image('Sobel Filter', sobel_image)

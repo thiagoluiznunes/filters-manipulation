@@ -82,7 +82,7 @@ def main():
 	elif option == "10":
 		mask = askopenfilename()
 		conv.sobel_filter(filename, mask)
-		# conv.sobel_filter('assets/images/tigre.jpg', 'assets/masks/mask3x3.txt')
+		# conv.sobel_filter('assets/images/CNN1.png', 'assets/masks/sobel-mask.txt')
 	else:
 		print('Closed!')
 

@@ -46,3 +46,9 @@ def create_extended_matrixes(img, inc):
 
 def rebate_mask(mask):
 	return np.rot90(np.rot90(mask))
+
+def zeroOr255(value, measure):
+	if value < measure:
+		return 0
+	else:
+		return 255
