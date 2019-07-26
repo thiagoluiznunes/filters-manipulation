@@ -87,7 +87,6 @@ def sobel_filter(path, mask):
 				for y in range(col_mask):
 					red_pixel_hor += r_ext[i+x, j+y] * sobel_hor[x, y]
 					red_pixel_ver += r_ext[i+x, j+y] * sobel_ver[x, y]
-
 					green_pixel_hor += g_ext[i+x, j+y] * sobel_hor[x, y]
 					green_pixel_ver += g_ext[i+x, j+y] * sobel_ver[x, y]
 
