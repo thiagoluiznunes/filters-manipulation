@@ -68,8 +68,8 @@ def sobel_filter(path, mask):
 	row, col, ch = img.shape
 	mask = np.loadtxt(mask)
 	row_mask, col_mask = mask.shape
-	sobel_ver = mask
-	sobel_hor = np.rot90(mask)
+	sobel_ver = hp.rebate_mask(mask)
+	sobel_hor = hp.rebate_mask(np.rot90(mask))
 
 	inc = row_mask // 2
 	r_ext, g_ext, b_ext = hp.create_extended_matrixes(img, inc)
@@ -89,7 +89,6 @@ def sobel_filter(path, mask):
 					red_pixel_ver += r_ext[i+x, j+y] * sobel_ver[x, y]
 					green_pixel_hor += g_ext[i+x, j+y] * sobel_hor[x, y]
 					green_pixel_ver += g_ext[i+x, j+y] * sobel_ver[x, y]
-
 					blue_pixel_hor += b_ext[i+x, j+y] * sobel_hor[x, y]
 					blue_pixel_ver += b_ext[i+x, j+y] * sobel_ver[x, y]
 			
