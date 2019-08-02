@@ -13,7 +13,7 @@ def main():
 	print('Choose one operation bellow:')
 	print('')
 	print('1. Thresholding Filter')
-	print('2. RGB Filter')
+	print('2. RGB Filter and GRAY')
 	print('3. Convert RGB to YIQ to RGB')
 	print('4. Negative Filter')
 	print('5. Incriese Brightness')
@@ -38,6 +38,7 @@ def main():
 		print('1. Red')
 		print('2. Green')
 		print('3. Blue')
+		print('4. Gray')
 		color = input()
 		if color == "1":
 			ft.show_rgb(filename, 'red')
@@ -45,6 +46,8 @@ def main():
 			ft.show_rgb(filename, 'green')
 		elif color == "3":
 			ft.show_rgb(filename, 'blue')
+		elif color == "4":
+			ft.show_rgb(filename, 'gray')
 	elif option == "3":
 		ft.rgb_yiq_rgb(filename)
 	elif option == "4":

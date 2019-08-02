@@ -8,22 +8,25 @@ def show_rgb(path, band):
 	blue, green, red = cv.split(img)
 
 	if band == 'blue':
-		print('BLue')
 		green = hp.clear_matrix(green)
 		red = hp.clear_matrix(red)
 		imgBlue = cv.merge([red, green, blue])
-		hp.showImage('Blue', imgBlue)
+		hp.show_image('Blue', imgBlue)
 	elif band == 'green':
 		blue = hp.clear_matrix(blue)
 		red = hp.clear_matrix(red)
 		imgGreen = cv.merge([red, green, blue])
-		hp.showImage('Green', imgGreen)
+		hp.show_image('Green', imgGreen)
 	elif band == 'red':
-		print('RED')
 		blue = hp.clear_matrix(blue)
 		green = hp.clear_matrix(green)
 		imgRed = cv.merge([red, green, blue])
-		hp.showImage('Red', imgRed)
+		hp.show_image('Red', imgRed)
+	elif band == 'gray':
+		blue = hp.clear_matrix(blue)
+		green = hp.clear_matrix(green)
+		imgGray = cv.merge([red, red, red])
+		hp.show_image('Gray', imgGray)
 
 
 def convert_to_yiq(path):
@@ -63,7 +66,7 @@ def convert_to_rgb(y_matrix, i_matrix, q_matrix):
 			b_matrix[x, j] = abs((1.000 * y) - (1.106 * i) + (1.703 * q))
 
 	rgb_img = cv.merge([r_matrix, g_matrix, b_matrix])
-	hp.showImage('RGB to YIQ to RGB', rgb_img)
+	hp.show_image('RGB to YIQ to RGB', rgb_img)
 
 
 def rgb_yiq_rgb(path):
@@ -84,7 +87,7 @@ def negative(path, option):
 				g_matrix[i, j] = 255 - green[i, j]
 				b_matrix[i, j] = 255 - blue[i, j]
 		negativeImage = cv.merge([r_matrix, g_matrix, b_matrix])
-		hp.showImage('Image Negative', negativeImage)
+		hp.show_image('Image Negative', negativeImage)
 
 	elif option == '2':
 		y_matrix, i_matrix, q_matrix = convert_to_yiq(path)
@@ -158,7 +161,7 @@ def brightness_handler(path, measure, option):
 					y_matrix[i, j] = newY
 
 	brightnessImage = cv.merge([r_matrix, g_matrix, b_matrix])
-	hp.showImage('Brightness Image', brightnessImage)
+	hp.show_image('Brightness Image', brightnessImage)
 
 
 def thresholding(path, measure, option):
@@ -173,7 +176,7 @@ def thresholding(path, measure, option):
 					th_image[i, j] = 0
 				else:
 					th_image[i, j] = 255
-		hp.showImage('Thresholding', th_image)
+		hp.show_image('Thresholding', th_image)
 	else:
 		img = cv.imread(path, 3)
 		row, col, ch = img.shape
@@ -196,7 +199,7 @@ def thresholding(path, measure, option):
 					b_matrix[i, j] = 255
 
 		th_image = cv.merge([r_matrix, g_matrix, b_matrix])
-		hp.showImage('Thresholding', th_image)
+		hp.show_image('Thresholding', th_image)
 
 
 def thresholding_y(path, choose, measure):
