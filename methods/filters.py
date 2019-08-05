@@ -28,6 +28,12 @@ def show_rgb(path, band):
 		imgGray = cv.merge([red, red, red])
 		hp.show_image('Gray', imgGray)
 
+def show_yiq(path):
+	y, i, q = convert_to_yiq(path)
+	yiq_matrix = cv.merge([y, i, q])
+	cv.imshow('YIQ IMAGE', yiq_matrix)
+	cv.waitKey(0)
+	cv.destroyAllWindows()
 
 def convert_to_yiq(path):
 	img = cv.imread(path, 3)

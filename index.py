@@ -22,6 +22,7 @@ def main():
 	print('8. Convolution Average Filter')
 	print('9. Convolution Median Filter')
 	print('10.Convolution Sobel Filter')
+	print('11.SHOW YIQ')
 	print('')
 	option = input()
 	filename = askopenfilename()
@@ -86,6 +87,8 @@ def main():
 		mask = askopenfilename()
 		conv.sobel_filter(filename, mask)
 		# conv.sobel_filter('assets/images/CNN1.png', 'assets/masks/sobel-mask.txt')
+	elif option == "11":
+		ft.show_yiq(filename)
 	else:
 		print('Closed!')
 
